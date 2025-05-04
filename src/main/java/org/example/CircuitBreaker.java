@@ -22,19 +22,19 @@ public class CircuitBreaker {
 
     public void attemptReset(){
         if(state == CircuitState.OPEN && lastFailureTime!= null && Instant.now().toEpochMilli() - lastFailureTime.toEpochMilli() >= timeout){
-            this.state = CircuitState.HAF_OPEN;
+            this.state = CircuitState.HALF_OPEN;
         }
     }
 
     public void reset(){
-        if(state == CircuitState.HAF_OPEN){
+        if(state == CircuitState.HALF_OPEN){
             failrueCount = 0;
             state = CircuitState.CLOSED;
         }
     }
 
     public void success(){
-        if(state == CircuitState.HAF_OPEN){
+        if(state == CircuitState.HALF_OPEN){
             reset();
         }
     }
@@ -48,7 +48,7 @@ public class CircuitBreaker {
     }
 
     public void failure(){
-        if(state == CircuitState.HAF_OPEN){
+        if(state == CircuitState.HALF_OPEN){
             state = CircuitState.OPEN;
             lastFailureTime = Instant.now();
         }

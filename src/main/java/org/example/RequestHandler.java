@@ -37,7 +37,7 @@ public class RequestHandler {
             System.out.println("Request failrue , id = " + request.getReqId());
             requestQueue.addRequest(request);
         }
-        else if(breaker.getState() == CircuitState.HAF_OPEN) {
+        else if(breaker.getState() == CircuitState.HALF_OPEN) {
             try{
                 System.out.println("Request success , id = " + request.getReqId());
                 service.processRequest(request);
